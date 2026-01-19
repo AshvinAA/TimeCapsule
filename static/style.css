@@ -1,0 +1,168 @@
+/* --- 1. DESIGN TOKENS (Variables) --- */
+:root {
+    --primary: #4F46E5;       /* Indigo */
+    --primary-hover: #4338ca;
+    --bg-color: #F3F4F6;      /* Light Gray */
+    --card-bg: #FFFFFF;
+    --text-main: #111827;     /* Almost Black */
+    --text-muted: #6B7280;    /* Gray */
+    --border: #E5E7EB;
+    
+    --status-locked-bg: #FEF2F2;
+    --status-locked-text: #DC2626; /* Red */
+    --status-unlocked-bg: #ECFDF5;
+    --status-unlocked-text: #059669; /* Green */
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 2. GLOBAL RESET --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: --bg-color;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Subtle Gradient */
+    color: var(--text-main);
+    padding-bottom: 50px;
+    min-height: 100vh;
+}
+
+/* --- 3. NAVBAR --- */
+.navbar {
+    background: var(--card-bg);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 2rem;
+}
+.logo { font-weight: 700; font-size: 1.2rem; color: var(--primary); display: flex; align-items: center; gap: 8px;}
+.nav-links { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
+
+/* --- 4. LAYOUT CONTAINER --- */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* --- 5. THE FORM CARD (Hero) --- */
+.creation-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+}
+
+.card-header h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.card-header p { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+
+.form-group { margin-bottom: 1.2rem; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: end; }
+
+label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.4rem; color: #374151; }
+
+input, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+}
+input:focus, textarea:focus { outline: none; border-color: var(--primary); ring: 2px var(--primary); }
+
+.info-box { color: var(--text-muted); font-size: 0.8rem; display: flex; align-items: center; gap: 6px; padding-bottom: 15px;}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    width: 100%;
+    padding: 0.85rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-primary:hover { background-color: var(--primary-hover); }
+
+/* --- 6. DIVIDER --- */
+.divider {
+    text-align: center;
+    margin: 2.5rem 0;
+    position: relative;
+}
+.divider::before {
+    content: ""; position: absolute; top: 50%; left: 0; right: 0;
+    border-top: 1px solid #D1D5DB; z-index: -1;
+}
+.divider span {
+    background: #f5f7fa; /* Matches body gradient roughly */
+    padding: 0 15px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* --- 7. CAPSULE GRID --- */
+.capsule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.capsule-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.capsule-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+/* Status Badges */
+.capsule-status { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.badge { font-size: 0.7rem; font-weight: 700; padding: 4px 8px; border-radius: 99px; letter-spacing: 0.5px; }
+.badge-locked { background: var(--status-locked-bg); color: var(--status-locked-text); }
+.badge-unlocked { background: var(--status-unlocked-bg); color: var(--status-unlocked-text); }
+
+.date { font-size: 0.8rem; color: var(--text-muted); }
+.capsule-title { font-size: 1.1rem; margin-bottom: 0.8rem; }
+
+/* Locked vs Unlocked Styling */
+.blurred-text {
+    color: transparent;
+    text-shadow: 0 0 8px rgba(0,0,0,0.3);
+    user-select: none;
+    line-height: 1.5;
+}
+.lock-msg {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+    background: #F9FAFB;
+    padding: 8px;
+    border-radius: 4px;
+    text-align: center;
+}
+.real-text {
+    color: #4B5563;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    white-space: pre-wrap; /* Keeps line breaks from user input */
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+}

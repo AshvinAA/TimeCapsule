@@ -9,7 +9,7 @@ app=Flask(__name__)
 
 #telling app that we are using sqlite for our database 
 #The ADDRESS to store the database
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///capsule.db'
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///capsule_v2.db'
 #turning auto tracking off which allows us to access every change in the memory of the database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -26,8 +26,10 @@ class Capsule(db.Model):
     message= db.Column(db.Text , nullable=False)
 
     #The logic columns 
-    unlock_data=db.Column(db.DateTime,nullable=False)
+    unlock_date=db.Column(db.DateTime,nullable=False)
     created_at=db.Column(db.DateTime,default=datetime.now)
+
+    
 
 
     def __repr__(self):
@@ -42,7 +44,29 @@ def home():
         message_input = request.form['message']
         date_input= request.form['unlock_date']
 
-        unlock_date_obj = 
+        unlock_date_obj = datetime.strptime(date_input, '%Y-%m-%d')
+
+        new_capsule = Capsule(
+            title=title_input,
+            message=message_input,
+            unlock_date=unlock_date_obj
+        )
+        # 4. Save to Database
+        db.session.add(new_capsule) # Stage the change
+        db.session.commit()         # Save permanently
+
+        #Refresh the page to clear the form 
+        return redirect('/')
+
+    
+    # 1. Get all capsules sorted by newest first
+    capsules = Capsule.query.order_by(Capsule.created_at.desc()).all()
+    
+    # 2. Get current time for the "Lock/Unlock" logic
+    current_time = datetime.now()
+
+    # 3. Send data to the template
+    return render_template('index.html', capsules=capsules, now=current_time)
 
 if __name__ == '__main__':
     app.run(debug=True)

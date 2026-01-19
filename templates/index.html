@@ -2,25 +2,99 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Time Capsule</title>
-    <style> body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; } </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Capsule | Secure Your Future</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>🕰️ Time Capsule Manager</h1>
 
-    <form method="POST">
-        <h3>Create New Capsule</h3>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-hourglass-half"></i> TimeCapsule
+        </div>
+        <div class="nav-links">
+            <span>{{ now.strftime('%B %d, %Y') }}</span>
+        </div>
+    </nav>
+
+    <div class="container">
         
-        <label>Title:</label><br>
-        <input type="text" name="title" required><br><br>
+        <div class="creation-card">
+            <div class="card-header">
+                <h2><i class="fa-solid fa-pen-nib"></i> Compose a Message</h2>
+                <p>Write to your future self. We'll keep it safe until the time is right.</p>
+            </div>
+            
+            <form method="POST">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="title" placeholder="e.g. Prediction for 2030..." required>
+                </div>
 
-        <label>Secret Message:</label><br>
-        <textarea name="message" required></textarea><br><br>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Unlock Date</label>
+                        <input type="date" name="unlock_date" required>
+                    </div>
+                    <div class="form-group info-box">
+                        <i class="fa-solid fa-info-circle"></i>
+                        <small>Message will remain encrypted until midnight of this date.</small>
+                    </div>
+                </div>
 
-        <label>Unlock Date:</label><br>
-        <input type="date" name="unlock_date" required><br><br>
+                <div class="form-group">
+                    <label>Secret Message</label>
+                    <textarea name="message" rows="5" placeholder="Dear future me..." required></textarea>
+                </div>
 
-        <button type="submit">Seal Capsule 🔒</button>
-    </form>
+                <button type="submit" class="btn-primary">
+                    Seal Capsule <i class="fa-solid fa-lock"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="divider">
+            <span>YOUR VAULT</span>
+        </div>
+
+        <div class="capsule-grid">
+            {% for capsule in capsules %}
+                {% set is_locked = capsule.unlock_date > now %}
+                
+                <div class="capsule-card {{ 'locked' if is_locked else 'unlocked' }}">
+                    <div class="capsule-status">
+                        {% if is_locked %}
+                            <span class="badge badge-locked"><i class="fa-solid fa-lock"></i> LOCKED</span>
+                        {% else %}
+                            <span class="badge badge-unlocked"><i class="fa-solid fa-lock-open"></i> UNLOCKED</span>
+                        {% endif %}
+                        <span class="date">{{ capsule.unlock_date.strftime('%b %d, %Y') }}</span>
+                    </div>
+
+                    <h3 class="capsule-title">{{ capsule.title }}</h3>
+
+                    <div class="capsule-body">
+                        {% if is_locked %}
+                            <div class="blurred-text">
+                                ████████ ████ ██████<br>
+                                █████ █████████ ██<br>
+                                ██████ ████
+                            </div>
+                            <p class="lock-msg">This capsule opens in {{ (capsule.unlock_date - now).days }} days.</p>
+                        {% else %}
+                            <p class="real-text">{{ capsule.message }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
 </body>
 </html>
