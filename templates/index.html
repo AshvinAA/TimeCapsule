@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Capsule</title>
+    <style> body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; } </style>
+</head>
+<body>
+    <h1>🕰️ Time Capsule Manager</h1>
+
+    <form method="POST">
+        <h3>Create New Capsule</h3>
+        
+        <label>Title:</label><br>
+        <input type="text" name="title" required><br><br>
+
+        <label>Secret Message:</label><br>
+        <textarea name="message" required></textarea><br><br>
+
+        <label>Unlock Date:</label><br>
+        <input type="date" name="unlock_date" required><br><br>
+
+        <button type="submit">Seal Capsule 🔒</button>
+    </form>
+</body>
+</html>

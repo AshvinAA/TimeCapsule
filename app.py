@@ -1,4 +1,4 @@
-from flask import Flask ,request , render_template
+from flask import Flask ,request , render_template ,redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -20,17 +20,29 @@ db=SQLAlchemy(app)
 class Capsule(db.Model):
     # Primary Key: The unique ID for every message (1, 2, 3...)
     id= db.Column(db.Integer, primary_key=True)
+
+    #The data columns 
+    title= db.Column(db.String(100),nullable=False)
     message= db.Column(db.Text , nullable=False)
+
+    #The logic columns 
     unlock_data=db.Column(db.DateTime,nullable=False)
-    created_at=db.Column(db.DateTime,default=datetime.utcnow)
+    created_at=db.Column(db.DateTime,default=datetime.now)
+
 
     def __repr__(self):
         return f'<Capsule {self.id}>'
 
 
-@app.route('/')
+
+@app.route('/', methods=['GET','POST'])
 def home():
-    return "Time Capsule is running"
+    if request.method == 'POST':
+        title_input = request.form['title']
+        message_input = request.form['message']
+        date_input= request.form['unlock_date']
+
+        unlock_date_obj = 
 
 if __name__ == '__main__':
     app.run(debug=True)
