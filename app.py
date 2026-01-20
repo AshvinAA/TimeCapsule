@@ -63,10 +63,16 @@ def home():
     capsules = Capsule.query.order_by(Capsule.created_at.desc()).all()
     
     # 2. Get current time for the "Lock/Unlock" logic
-    current_time = datetime.now()
+    
+    return render_template('index.html', capsules=capsules, now=datetime.now())
 
-    # 3. Send data to the template
-    return render_template('index.html', capsules=capsules, now=current_time)
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    capsule= Capsule.query.get(id)
+    db.session.delete(capsule)
+    db.session.commit()
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True)

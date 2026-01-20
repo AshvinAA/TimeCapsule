@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Capsule | Secure Your Future</title>
+    <title>Time Capsule | Secure Terminal</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='cyber.css') }}">
 </head>
 <body>
 
     <nav class="navbar">
         <div class="logo">
-            <i class="fa-solid fa-hourglass-half"></i> TimeCapsule
+            <i class="fa-solid fa-terminal"></i> TIME_CAPSULE
         </div>
         <div class="nav-links">
-            <span>{{ now.strftime('%B %d, %Y') }}</span>
+            <span>AshvinAA</span>
         </div>
     </nav>
 
@@ -26,40 +25,40 @@
         
         <div class="creation-card">
             <div class="card-header">
-                <h2><i class="fa-solid fa-pen-nib"></i> Compose a Message</h2>
-                <p>Write to your future self. We'll keep it safe until the time is right.</p>
+                <h2><i class="fa-solid fa-code-branch"></i> Initialize New Capsule</h2>
+                <p>> Enter parameters for temporal storage...</p>
             </div>
             
             <form method="POST">
                 <div class="form-group">
-                    <label>Title</label>
-                    <input type="text" name="title" placeholder="e.g. Prediction for 2030..." required>
+                    <label>DATA_LABEL (TITLE)</label>
+                    <input type="text" name="title" placeholder="e.g. PROJECT_ALPHA_2030" required>
                 </div>
 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>Unlock Date</label>
+                        <label>UNLOCK_PROTOCOL (DATE)</label>
                         <input type="date" name="unlock_date" required>
                     </div>
                     <div class="form-group info-box">
-                        <i class="fa-solid fa-info-circle"></i>
-                        <small>Message will remain encrypted until midnight of this date.</small>
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <small>ENCRYPTION ACTIVE UNTIL TARGET DATE</small>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Secret Message</label>
-                    <textarea name="message" rows="5" placeholder="Dear future me..." required></textarea>
+                    <label>PAYLOAD (MESSAGE)</label>
+                    <textarea name="message" rows="5" placeholder="> Input secure data..." required></textarea>
                 </div>
 
                 <button type="submit" class="btn-primary">
-                    Seal Capsule <i class="fa-solid fa-lock"></i>
+                    [ EXECUTE LOCK SEQUENCE ] <i class="fa-solid fa-lock"></i>
                 </button>
             </form>
         </div>
 
         <div class="divider">
-            <span>YOUR VAULT</span>
+            <span>DATABASE_ENTRIES</span>
         </div>
 
         <div class="capsule-grid">
@@ -67,25 +66,33 @@
                 {% set is_locked = capsule.unlock_date > now %}
                 
                 <div class="capsule-card {{ 'locked' if is_locked else 'unlocked' }}">
+                    
                     <div class="capsule-status">
                         {% if is_locked %}
                             <span class="badge badge-locked"><i class="fa-solid fa-lock"></i> LOCKED</span>
                         {% else %}
                             <span class="badge badge-unlocked"><i class="fa-solid fa-lock-open"></i> UNLOCKED</span>
                         {% endif %}
-                        <span class="date">{{ capsule.unlock_date.strftime('%b %d, %Y') }}</span>
+                        <span class="date">TARGET: {{ capsule.unlock_date.strftime('%Y-%m-%d') }}</span>
                     </div>
 
-                    <h3 class="capsule-title">{{ capsule.title }}</h3>
-
+                    <div class="capsule-header-row">
+                        <h3 class="capsule-title">{{ capsule.title }}</h3>
+                        
+                        <a href="/delete/{{ capsule.id }}" 
+                           class="delete-btn"
+                           onclick="return confirm('WARNING: You are about to wipe this memory from the database. Proceed?');">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
+                    </div>
                     <div class="capsule-body">
                         {% if is_locked %}
                             <div class="blurred-text">
-                                ████████ ████ ██████<br>
-                                █████ █████████ ██<br>
-                                ██████ ████
+                                01010101 01001001 01000100<br>
+                                ██████ ENCRYPTED ██████<br>
+                                01000101 01001110 01000100
                             </div>
-                            <p class="lock-msg">This capsule opens in {{ (capsule.unlock_date - now).days }} days.</p>
+                            <p class="lock-msg">> ACCESS DENIED. T-MINUS {{ (capsule.unlock_date - now).days }} DAYS.</p>
                         {% else %}
                             <p class="real-text">{{ capsule.message }}</p>
                         {% endif %}
@@ -93,6 +100,8 @@
                 </div>
             {% endfor %}
         </div>
+        
+        <div class="signature">---- AshvinAA</div>
 
     </div>
 

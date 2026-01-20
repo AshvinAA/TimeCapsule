@@ -1,0 +1,214 @@
+/* --- 1. DESIGN TOKENS (The Neon Palette) --- */
+:root {
+    /* Backgrounds */
+    --bg-main: #050505;   /* Pure Black */
+    --bg-card: #0a0a0a;   /* Slightly lighter */
+    --bg-input: #000000;
+
+    /* Text */
+    --text-bright: #e0e0e0;
+    --text-dim: #505050;
+    
+    /* Neons */
+    --neon-cyan: #00f3ff;  /* Main Theme */
+    --neon-red: #ff003c;   /* Error/Locked */
+    --neon-green: #00ff41; /* Success/Unlocked */
+
+    /* Glows (Shadows) */
+    --glow-cyan: 0 0 5px rgba(0, 243, 255, 0.5), 0 0 10px rgba(0, 243, 255, 0.3);
+    --glow-red: 0 0 5px rgba(255, 0, 60, 0.5), 0 0 10px rgba(255, 0, 60, 0.3);
+    --glow-green: 0 0 5px rgba(0, 255, 65, 0.5), 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+/* --- 2. GLOBAL RESET --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Fira Code', monospace; /* The Hacker Font */
+    background-color: var(--bg-main);
+    color: var(--text-bright);
+    padding-bottom: 50px;
+    min-height: 100vh;
+    /* Grid Pattern Background */
+    background-image: 
+        linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+}
+
+/* --- 3. NAVBAR --- */
+.navbar {
+    background: var(--bg-card);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--neon-cyan);
+    box-shadow: var(--glow-cyan);
+    margin-bottom: 3rem;
+}
+.logo { 
+    font-weight: 700; 
+    font-size: 1.2rem; 
+    color: var(--neon-cyan); 
+    letter-spacing: 1px;
+}
+.nav-links { color: var(--text-dim); font-size: 0.8rem; }
+
+/* --- 4. LAYOUT --- */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* --- 5. THE INPUT TERMINAL --- */
+.creation-card {
+    background: var(--bg-card);
+    padding: 2rem;
+    border: 1px solid var(--neon-cyan);
+    box-shadow: var(--glow-cyan);
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+/* Header */
+.card-header h2 { color: var(--neon-cyan); font-size: 1.2rem; margin-bottom: 0.5rem; text-transform: uppercase; }
+.card-header p { color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.9rem; }
+
+/* Inputs */
+label { display: block; font-size: 0.7rem; margin-bottom: 0.4rem; color: var(--neon-cyan); }
+
+input, textarea {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--bg-input);
+    border: 1px solid #333;
+    color: var(--neon-cyan);
+    font-family: inherit;
+    margin-bottom: 1rem;
+    transition: all 0.2s;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--neon-cyan);
+    box-shadow: var(--glow-cyan);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.info-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--text-dim);
+    border: 1px dashed #333;
+    padding: 0.5rem;
+    font-size: 0.7rem;
+}
+
+/* Button */
+.btn-primary {
+    background: transparent;
+    color: var(--neon-cyan);
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--neon-cyan);
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+.btn-primary:hover {
+    background: var(--neon-cyan);
+    color: black;
+    box-shadow: var(--glow-cyan);
+}
+
+/* --- 6. CAPSULE GRID --- */
+.divider {
+    text-align: center; margin: 3rem 0; position: relative;
+}
+.divider::before {
+    content: ""; position: absolute; top: 50%; left: 0; right: 0; border-top: 1px solid #333; z-index: -1;
+}
+.divider span {
+    background: var(--bg-main); padding: 0 15px; color: var(--text-dim); font-size: 0.8rem;
+}
+
+.capsule-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;
+}
+
+.capsule-card {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border: 1px solid #333;
+    transition: transform 0.2s;
+}
+.capsule-card:hover { transform: translateY(-5px); }
+
+/* LOCKED STATE */
+.capsule-card.locked { border-color: var(--neon-red); box-shadow: var(--glow-red); }
+.capsule-card.locked .badge { color: var(--neon-red); border: 1px solid var(--neon-red); }
+.capsule-card.locked .capsule-title { color: var(--neon-red); }
+
+/* UNLOCKED STATE */
+.capsule-card.unlocked { border-color: var(--neon-green); box-shadow: var(--glow-green); }
+.capsule-card.unlocked .badge { color: var(--neon-green); border: 1px solid var(--neon-green); }
+.capsule-card.unlocked .capsule-title { color: var(--neon-green); }
+
+/* Details */
+.capsule-status { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+.badge { font-size: 0.6rem; padding: 2px 6px; text-transform: uppercase; }
+.date { font-size: 0.6rem; color: var(--text-dim); }
+
+/* NEW: HEADER ROW FLEXBOX */
+.capsule-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+.capsule-title { 
+    font-size: 1rem; 
+    text-transform: uppercase; 
+    margin: 0; /* remove default margins */
+}
+
+/* NEW: DELETE BUTTON */
+.delete-btn {
+    color: #555;
+    font-size: 1.1rem;
+    transition: color 0.3s, text-shadow 0.3s;
+    padding: 5px;
+}
+.delete-btn:hover {
+    color: var(--neon-red);
+    text-shadow: var(--glow-red);
+    cursor: pointer;
+}
+
+/* Text Effects */
+.blurred-text { color: var(--neon-red); opacity: 0.5; filter: blur(1px); line-height: 1.5; font-size: 0.8rem; }
+.lock-msg { margin-top: 10px; font-size: 0.7rem; color: var(--text-dim); text-align: center; border-top: 1px solid #333; padding-top: 5px; }
+.real-text { color: var(--text-bright); font-size: 0.9rem; line-height: 1.5; white-space: pre-wrap; word-wrap: break-word; }
+
+/* Signature */
+.signature {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    background: rgba(0,0,0,0.8);
+    padding: 5px;
+    border: 1px solid #333;
+}
